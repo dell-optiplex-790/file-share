@@ -3,7 +3,7 @@
 
 <center>
     <h1>file share</h1>
-    <div id="files"></div>
+    <table id="files"></table>
     <br>
     <form id="upload" action="/upload" method="POST" enctype="multipart/form-data" style="display: none">
         <input type="file" id="file" onchange="getfile()" name="file"></input>
@@ -13,7 +13,7 @@
 
 <script>
     function j() {
-        var file = event.target.parentElement.getElementsByTagName('span')[0].innerHTML
+        var file = encodeURIComponent(event.target.parentElement.getElementsByTagName('span')[0].innerHTML)
         var action = event.target.value
         event.target.value = 'no'
         event.target.blur()
@@ -57,7 +57,7 @@
 
     fetch('/files').then(x=>x.json()).then(data => {
         document.getElementById('files').innerHTML = data.map(file => {
-            return `<div class="file"><span>${file.name}</span><span><b>${formatBytes(file.size)}</b></span><button onclick="d()">Download</button><select onchange="j()"><option value="no">Copy...</option><option value="link">Copy link</option><option value="discord">Share on Discord</option></select></div>`
+            return `<tr class="file"><td><span>${file.name}</span></td><td><b>${formatBytes(file.size)}</b></td><td><button onclick="d()">Download</button></td><td><select onchange="j()"><option value="no">Copy...</option><option value="link">Copy link</option><option value="discord">Share on Discord</option></select></td></tr>`
         }).join('\n')
     })
 </script>

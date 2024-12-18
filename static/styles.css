@@ -2,13 +2,6 @@
     src: url('segoeui.ttf');
     font-family: SegoeUI;
 }
-
-.file > span {
-    margin-right: 5%;
-}
-.file > button {
-    margin-right: 1%;
-}
 * {
     background-color: #eee;
     font-family: SegoeUI;
