@@ -2,6 +2,7 @@
 <link href="styles.css" rel="stylesheet">
 
 <center>
+    <button onclick="refresh()">Refresh</button>
     <h1>file share</h1>
     <table id="files"></table>
     <br>
@@ -55,9 +56,12 @@
         return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
     }
 
-    fetch('/files').then(x=>x.json()).then(data => {
-        document.getElementById('files').innerHTML = data.map(file => {
-            return `<tr class="file"><td><span>${file.name}</span></td><td><b>${formatBytes(file.size)}</b></td><td><button onclick="d()">Download</button></td><td><select onchange="j()"><option value="no">Copy...</option><option value="link">Copy link</option><option value="discord">Share on Discord</option></select></td></tr>`
-        }).join('\n')
-    })
+    function refresh() {
+        fetch('/files').then(x=>x.json()).then(data => {
+            document.getElementById('files').innerHTML = data.map(file => {
+                return `<tr class="file"><td><span>${file.name}</span></td><td><b>${formatBytes(file.size)}</b></td><td><button onclick="d()">Download</button></td><td><select onchange="j()"><option value="no">Copy...</option><option value="link">Copy link</option><option value="discord">Share on Discord</option></select></td></tr>`
+            }).join('\n')
+        })
+    }
+    refresh()
 </script>
