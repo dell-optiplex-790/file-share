@@ -14,7 +14,7 @@
 
 <script>
     function j() {
-        var file = encodeURIComponent(event.target.parentElement.getElementsByTagName('span')[0].innerHTML)
+        var file = encodeURIComponent(event.target.parentElement.parentElement.getElementsByTagName('td')[0].innerHTML)
         var action = event.target.value
         event.target.value = 'no'
         event.target.blur()
@@ -28,7 +28,7 @@
     }
 
     function d() {
-        var file = event.target.parentElement.getElementsByTagName('span')[0].innerHTML
+        var file = event.target.parentElement.parentElement.getElementsByTagName('td')[0].innerHTML
         location.href = '/f/' + file
     }
 
@@ -59,7 +59,7 @@
     function refresh() {
         fetch('/files').then(x=>x.json()).then(data => {
             document.getElementById('files').innerHTML = data.map(file => {
-                return `<tr class="file"><td><span>${file.name}</span></td><td><b>${formatBytes(file.size)}</b></td><td><button onclick="d()">Download</button></td><td><select onchange="j()"><option value="no">Copy...</option><option value="link">Copy link</option><option value="discord">Share on Discord</option></select></td></tr>`
+                return `<tr class="file"><td>${file.name}</td><td><b>${formatBytes(file.size)}</b></td><td><button onclick="d()">Download</button></td><td><select onchange="j()"><option value="no">Copy...</option><option value="link">Copy link</option><option value="discord">Share on Discord</option></select></td></tr>`
             }).join('\n')
         })
     }
