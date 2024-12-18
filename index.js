@@ -4,7 +4,7 @@ var app = express()
 var fs = require('fs')
 var path = require('path')
 var multer = require('multer');
-var config = fs.readFileSync(path.join(__dirname, 'config.json'))
+var config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json')).toString())
 
 var upload = multer({ dest: path.join(__dirname, 'files') });
 
