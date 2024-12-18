@@ -1,0 +1,63 @@
+<title>file share</title>
+<link href="styles.css" rel="stylesheet">
+
+<center>
+    <h1>file share</h1>
+    <div id="files"></div>
+    <br>
+    <form id="upload" action="/upload" method="POST" enctype="multipart/form-data" style="display: none">
+        <input type="file" id="file" onchange="getfile()" name="file"></input>
+    </form>
+    <button onclick="upload()">Upload...</button>
+</center>
+
+<script>
+    function j() {
+        var file = event.target.parentElement.getElementsByTagName('span')[0].innerHTML
+        var action = event.target.value
+        event.target.value = 'no'
+        event.target.blur()
+        setTimeout(() => {
+            if(action==='link') {
+                alert("Copy this: http://"+location.host+"/f/"+file)
+            } else if(action==='discord') {
+                alert("Send this: http://"+location.host+"/.png?f="+file)
+            }
+        },5)
+    }
+
+    function d() {
+        var file = event.target.parentElement.getElementsByTagName('span')[0].innerHTML
+        location.href = '/f/' + file
+    }
+
+    function upload() {
+        var file = document.getElementById('file')
+        file.click()
+    }
+
+    function getfile() {
+        var form = document.getElementById('upload')
+        if(event.target.files.length>0) {
+            form.submit()
+        }
+    }
+
+    function formatBytes(bytes, decimals = 2) {
+        if (!+bytes) return '0 Bytes'
+    
+        var k = 1024
+        var dm = decimals < 0 ? 0 : decimals
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+    
+        var i = Math.floor(Math.log(bytes) / Math.log(k))
+    
+        return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+    }
+
+    fetch('/files').then(x=>x.json()).then(data => {
+        document.getElementById('files').innerHTML = data.map(file => {
+            return `<div class="file"><span>${file.name}</span><span><b>${formatBytes(file.size)}</b></span><button onclick="d()">Download</button><select onchange="j()"><option value="no">Copy...</option><option value="link">Copy link</option><option value="discord">Share on Discord</option></select></div>`
+        }).join('\n')
+    })
+</script>
