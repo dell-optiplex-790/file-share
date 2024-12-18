@@ -79,7 +79,7 @@ async function genImage(file) {
     
         return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
     }
-    var image = new Jimp(800, 300, '#fff', (err, image) => {
+    var image = new Jimp(800, 300, '#eee', (err, image) => {
         if (err) throw err
     })
     var font64 = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK)
